@@ -18,6 +18,7 @@ Sistema de Backup Online para la M4 Board Amstrad
 - whiptail
 - erlang-getopt
 - apache2
+- jq
 - shc
 ```
 
