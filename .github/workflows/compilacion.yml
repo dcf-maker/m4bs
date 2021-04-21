@@ -33,10 +33,10 @@ jobs:
           echo "M4IP=" >> m4bs/etc/m4bs.cfg
           echo "UPDATE=1" >> m4bs/etc/m4bs.cfg
           cp var/info.txt m4bs/var/info.txt
-          cp bin/*.* m4bs/bin
-          cp etc/*.* m4bs/etc
-          cp var/*.* m4bs/var
-          cp cgi/*.* m4bs/cgi
+          cp bin/* m4bs/bin
+          cp etc/* m4bs/etc
+          cp var/* m4bs/var
+          cp cgi/* m4bs/cgi
 
       - uses: actions/upload-artifact@v2
         with:
