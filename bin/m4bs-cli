@@ -1,0 +1,358 @@
+#! /bin/bash
+
+# This program is just an example of how to make a whiptail menu and some basic commands.
+# Copyright (C) 2021  Destroyer  dcf.maker@gmail.com
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+get_user() {
+	if [ "$EUID" == 0 ]; then
+		echo "Por favor no ejecute con sudo / root"
+		exit 1
+	fi
+}
+
+get_user
+
+## Variable globales
+
+CONFIG_PATH=$HOME/.m4bs 
+CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
+LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+STATUS=OFFLINE
+DIALOG_CANCEL=1
+DIALOG_ESC=255
+HEIGHT=16
+WIDTH=80
+
+####################
+# functions script #
+####################
+
+do_log() {
+	fecha=`date '+%Y-%m-%d %H:%M'`
+	echo "[$fecha]:$1" |& tee -a "$LOG_FILE"
+  #echo "[$fecha]:$1" >> "$LOG_FILE"
+}
+
+get_center(){
+    COLS=$(tput cols)
+    printf "%*s\n" "$(((${#1}+${COLS})/2))" "$1"
+}
+
+function do_about() {
+  NOTES=$(cat $CONFIG_PATH/var/info.txt)
+  dialog --title "Release Notes" \
+  --no-collapse \
+  --msgbox "$NOTES" 15 80
+}
+
+do_setProperty(){
+    sed -i "s%$1=.*%$1=$2%g" $CONFIG_FILE
+}
+
+function do_ip() {
+  M4IP=$(\
+    dialog --title " IP M4 Board " \
+    --ok-label "Guardar" \
+    --inputbox "Escriba la direccion IP de su M4 Board:" 8 60 $M4IP \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  do_setProperty "M4IP" "$M4IP"
+}
+
+function do_user() {
+  USER=$(\
+    dialog --title " Usuario MEGA " \
+    --ok-label "Guardar" \
+    --inputbox "Escriba el usuario de su cuenta MEGA:" 8 60 $USER \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  do_setProperty "USER" "$USER"
+}
+
+function do_pass() {
+  PASSWORD=$(\
+    dialog --title " Password MEGA " \
+    --ok-label "Guardar" \
+    --insecure \
+    --passwordbox "Escriba la password de su cuenta MEGA:" 8 60 $PASSWORD \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  do_setProperty "PASSWORD" "$PASSWORD"
+}
+
+function do_localpath() {
+  LOCALPATH=$(\
+    dialog --title " Ruta Origen (Local) " \
+    --ok-label "Guardar" \
+    --inputbox "Escriba la ruta origen (local) :" 8 60 $LOCALPATH \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  do_setProperty "LOCALPATH" "$LOCALPATH"
+}
+
+function do_remotepath() {
+  REMOTEPATH=$(\
+    dialog --title " Ruta destino MEGA " \
+    --ok-label "Guardar" \
+    --inputbox "Escriba la ruta destino en su cuenta MEGA:" 8 60 $REMOTEPATH \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  do_setProperty "REMOTEPATH" "$REMOTEPATH"
+}
+
+function do_systemboot() {
+  dialog --title " Inicio Sistema " \
+  --yes-label "SI" \
+  --yesno "Arrancar aplicación al iniciar el sistema?" 8 60
+  response=$?
+  case $response in
+    0) do_setProperty "STARTBOOT" "yes"
+       echo "@reboot /usr/bin/m4bs-start" | crontab -u amstrad -
+       ;;
+    1) do_setProperty "STARTBOOT" "no"
+       crontab -u amstrad -l | grep -v '@reboot /usr/bin/m4bs-start'  | crontab -u amstrad -
+       ;;
+  esac
+}
+
+display_result() {
+  dialog --title "$1" \
+  --no-collapse \
+  --msgbox "$2" 0 0
+}
+
+do_display_configurations(){
+  SALIDA=$(cat $CONFIG_FILE | sed "s/PASSWORD=$PASSWORD/PASSWORD=******/gi")
+  dialog --title " Configuraciones actuales " \
+  --ok-label "Cerrar" \
+  --no-collapse \
+  --msgbox "$SALIDA" 15 60
+}
+
+do_stop(){
+  SALIDA=$(m4bs-stop)
+  STATUS=$(m4bs-status)
+  dialog --title " Configuraciones actuales " \
+  --ok-label "Cerrar" \
+  --no-collapse \
+  --msgbox "$SALIDA" 15 60
+}
+
+do_info_online(){
+  
+  STATUS=$(m4bs-status)
+  if [ "$STATUS" = "ONLINE" ]; then
+    ONLINE=$(mega-sync)
+    dialog --title " Backup Online " \
+    --ok-label "Cerrar" \
+    --no-collapse \
+    --msgbox "$ONLINE" 15 80  
+  else
+      dialog --title " Backup Online " \
+    --ok-label "Cerrar" \
+    --no-collapse \
+    --msgbox "M4-BACKUP SYSTEM no esta arrancado. Por favor arranquelo" 15 60    
+  fi
+}
+
+do_start(){
+  m4bs-start
+  case $? in
+    0)
+      SALIDA="M4-Backup System Arrancado";;
+    2)
+      SALIDA="[Error: 2] Argumento erroneo al arrancar.";;
+    9)
+      SALIDA="[Error: 9] Usuario o Password MEGA incorrectos";;
+    6)
+      SALIDA="[Error: 6] al conectar a MEGA. Varias conexiones concurrentes.";;
+    57)
+      SALIDA="[Error: 57] Error al arrancar la sincronizacion";;
+    *)
+      SALIDA="Error desconocio al arrancar M4-Backup System";;
+ esac
+ STATUS=$(m4bs-status)
+  dialog --title " Arranque M4-Backup " \
+  --ok-label "Cerrar" \
+  --no-collapse \
+  --msgbox "$SALIDA" 10 60
+  
+}
+
+do_info(){
+  INFO=$(mega-whoami -l)
+  case $? in
+    0)
+      SALIDA=$INFO
+      HEIGHTM=20
+      WIDTHM=80
+      ;;
+    57)
+      SALIDA="M4-BACKUP SYSTEM no esta arrancado. Por favor arranquelo"
+      HEIGHTM=10
+      WIDTHM=60
+      ;;
+    *)
+      SALIDA="Error desconocio al arrancar M4-Backup System"
+      HEIGHTM=10
+      WIDTHM=60
+      ;;
+ esac
+ STATUS=$(m4bs-status)
+  dialog --title " Arranque M4-Backup " \
+  --ok-label "Cerrar" \
+  --no-collapse \
+  --msgbox "$SALIDA" $HEIGHTM $WIDTHM
+  
+}
+
+do_menu_info(){
+  
+  while true; do
+    STATUS=$(m4bs-status)
+    exec 3>&1
+    selection=$(dialog \
+    --backtitle "M4-Backup v$VERSION - Backup Online M4 Motherboard" \
+    --title "  Informacion  " \
+    --clear \
+    --ok-label "Seleccionar" \
+    --cancel-label "Salir" \
+    --menu "Status: $STATUS"  $HEIGHT $WIDTH 9 \
+    "1" "Cuenta MEGA" \
+    "2" "Backup Online" \
+    "3" "Configuracion M4-BACKUP SYSTEM" 2>&1 1>&3)
+    exit_status=$?
+    exec 3>&-
+    case $exit_status in
+      $DIALOG_CANCEL)
+        break;;
+      $DIALOG_ESC)
+        break
+      ;;
+    esac
+    case $selection in
+      0 )clear;;
+      1 )do_info;;
+      2 )do_info_online;;
+      3 )
+        do_display_configurations;;
+    esac
+  done
+}
+
+do_menu_principal(){
+  
+  while true; do
+    STATUS=$(m4bs-status)
+    exec 3>&1
+    selection=$(dialog \
+    --backtitle "M4-Backup v$VERSION - Backup Online M4 Motherboard" \
+    --title "  M4-BACKUP SYSTEM  " \
+    --clear \
+    --ok-label "Seleccionar" \
+    --cancel-label "Salir" \
+    --menu "Status: $STATUS"  $HEIGHT $WIDTH 9 \
+    "1" "Información M4-BACKUP" \
+    "2" "Configurar Backup" \
+    "3" "Arrancar M4-Backup" \
+    "4" "Parar M4-Backup" \
+    "5" "Release Notes" 2>&1 1>&3)
+    exit_status=$?
+    exec 3>&-
+    case $exit_status in
+      $DIALOG_CANCEL)
+        clear
+        exit;;
+      $DIALOG_ESC)
+        clear
+        exit 1
+      ;;
+    esac
+    case $selection in
+      0 )clear;;
+      1 )do_menu_info;;
+      2 )do_menu_configurations;;
+      3 )do_start;;
+      4 )do_stop;;
+      5 )
+        do_about;;
+    esac
+  done
+}
+
+do_menu_configurations(){
+  
+  while true; do
+    STATUS=$(m4bs-status)
+    exec 3>&1
+    selection=$(dialog \
+    --backtitle "M4-Backup v$VERSION - Backup Online M4 Motherboard" \
+    --title "  Modificar Configuraciones  " \
+    --clear \
+    --ok-label "Seleccionar" \
+    --cancel-label "Salir" \
+    --menu "Status: $STATUS" $HEIGHT $WIDTH 9 \
+    "1" "Usuario MEGA" \
+    "2" "Password MEGA" \
+    "3" "Ruta Origen" \
+    "4" "Ruta Destino (MEGA)" \
+    "5" "Direcion IP M4 Board" \
+    "6" "Arranque M4-Backup" 2>&1 1>&3)
+    exit_status=$?
+    exec 3>&-
+    case $exit_status in
+      $DIALOG_CANCEL)
+        break;;
+      $DIALOG_ESC)
+        break;;
+    esac
+    case $selection in
+      0 )clear;;
+      1 )do_user;;
+      2 )do_pass;;
+      3 )do_localpath;;
+      4 )do_remotepath;;
+      5 )do_ip;;
+      6)
+        do_systemboot;;
+    esac
+  done
+}
+
+
+#####################################################
+#           MENU PRINCIPAL APLICACION               #
+#####################################################
+
+# Cargamos fichero de propiedades y version
+
+if [ -f "${CONFIG_FILE}" ]; then
+	source "${CONFIG_FILE}"
+else
+	do_log "[ERROR] El archivo de configuraciones no existe. Vuelva a reinstalar la aplicación"
+	exit 1
+fi
+
+if [ -f "${CONFIG_PATH}/var/version" ]; then
+	source "${CONFIG_PATH}/var/version"
+else
+	VERSION="0.0"
+fi
+
+do_menu_principal
+
+clear

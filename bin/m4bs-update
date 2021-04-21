@@ -1,0 +1,157 @@
+#! /bin/bash
+
+# This program is just an example of how to make a whiptail menu and some basic commands.
+# Copyright (C) 2021  Destroyer  dcf.maker@gmail.com
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+
+get_user() {
+	if [ "$EUID" == 0 ]; then
+		echo "Por favor no ejecute con sudo / root"
+		exit 1
+	fi
+}
+
+get_user
+
+# Variable Globales
+
+CONFIG_PATH=$HOME/.m4bs                                              # Path folder application
+CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg                                # Path Config File
+LOG_FILE=$CONFIG_PATH/temp/m4bs.log                                  # Path Log file
+OAUTH_TOKEN="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"               # Token Github
+OWNER="dcf-maker"                                                    # Usuario Github
+REPO="m4-backup-cli"               								 # repositorio Github
+FILE_NAME="m4bs.zip"               									 # Zip a descargar
+API_URL="https://$OAUTH_TOKEN:@api.github.com/repos/$OWNER/$REPO"    # url github api
+
+
+if [ -f "${CONFIG_PATH}/var/version" ]; then
+	source "${CONFIG_PATH}/var/version"
+else
+	VERSION="0.0"
+fi
+
+NEW_VERSION=$(curl --silent $API_URL/releases/latest | jq -r '.tag_name')
+
+do_help() {
+	echo ""
+	echo "Busca y actualiza m4bs"
+	echo ""
+	echo "m4bs-update <opcion>"
+	echo "Opciones"
+	echo "   -b        Busca actualizaciones de la aplicacion"
+	echo "   -i        Busca y actualiza la aplicación"
+	echo "   -s        Busca y actualiza la aplicación"
+	echo ""
+	exit 1
+}
+
+do_answer() {
+	echo ""
+	if [ "$NEW_VERSION" != "$VERSION" ]; then
+		while true; do
+			read -p "Existe una nueva versión ($NEW_VERSION) de M4BS, ¿desea actualizar? " sn
+			case $sn in
+				[Ss]* ) do_update; break;;
+				[Nn]* ) exit;;
+				* ) echo "Por favor responda si o no.";;
+			esac
+		done
+	fi
+	exit 1
+}
+
+do_update() {
+	
+	if [ "$NEW_VERSION" != "$VERSION" ]; then
+		
+		ASSET_ID=$(curl --silent $API_URL/releases/latest | jq -r '.assets[0].id')
+		
+		cd /tmp
+
+		rm -f $FILE_NAME
+		
+		[[ -d "/tpm/m4bs" ]] && rm -rf "$CONFIG_PATH/temp/m4bs"
+		
+		if ! curl --silent --fail -O -J -L -H "Accept: application/octet-stream" "$API_URL/releases/assets/$ASSET_ID"; then
+			echo "No se ha podido realizar la descarga. Por favor intentelo mas tarde"
+			exit 2
+		else
+			unzip m4bs.zip -d /tmp
+			rm -f $FILE_NAME
+			###cp -R $CONFIG_PATH/temp/m4bsd/bin $CONFIG_PATH
+			rsync -zvh --exclude 'm4bs.cfg' /tmp/m4bs $CONFIG_PATH
+			echo $?
+			if [ $? == 0 ]; then
+				echo "VERSION=$NEW_VERSION" > $CONFIG_PATH/var/version
+				[[ -d "$CONFIG_PATH/temp/m4bs" ]] && rm -rf "$CONFIG_PATH/temp/m4bs"
+				echo "Done!....m4bs actualizado"
+				exit 0		
+			else
+				echo "No se ha podido realizar la descarga. Por favor intentelo mas tarde"
+				exit 2
+			fi
+		fi
+		
+	else
+		echo "m4bs esta actualizado!!"
+		exit 0
+	fi
+
+}
+
+# Opciones del programa
+
+while [ -n "$1" ]; do # while loop starts
+	case "$1" in
+		-b)
+			if [ "$NEW_VERSION" != "$VERSION" ]; then
+				echo "Nueva Version disponible: $NEW_VERSION"
+				exit 99
+			else
+				echo "m4bs esta actualizado!!"
+				exit 0
+			fi
+			break
+		;;
+		-i)
+			do_update
+			break
+		;;
+		-s)
+			do_answer
+			break
+		;;
+		-h)
+			do_help
+			exit
+			shift
+		;;
+		--)
+			shift
+			break
+		;;
+		
+		*) echo "Option $1 not recognized"; do_help ;;
+		esac
+		shift
+		
+done
+do_help 
+exit
+
+	

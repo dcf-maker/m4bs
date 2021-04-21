@@ -1,0 +1,73 @@
+#! /bin/bash
+
+# This program is just an example of how to make a whiptail menu and some basic commands.
+# Copyright (C) 2021  Destroyer  dcf.maker@gmail.com
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+get_user() {
+	if [ "$EUID" == 0 ]; then
+		echo "Por favor no ejecute con sudo / root"
+		exit 1
+	fi
+}
+
+get_user
+
+# Variable Globales
+
+CONFIG_PATH=$HOME/.m4bs
+CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
+LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+
+# Funciones del programa
+
+do_log() {
+	fecha=`date '+%Y-%m-%d %H:%M'`
+	echo "[$fecha]:$1" >>"$LOG_FILE"
+}
+
+if [ -f "${CONFIG_FILE}" ]; then
+	source "${CONFIG_FILE}"
+else
+	do_log "[ERROR] El archivo de configuraciones no existe. Vuelva a reinstalar la aplicación"
+	exit 1
+fi
+
+# Paramos MEGA
+CHECK=$(m4bs-status)
+
+if [ "$CHECK" = "OFFLINE" ]; then
+    echo "M4-BACKUP SYSTEM no esta arrancado. Por favor arranquelo."
+    exit 57
+else
+    echo "----------------------------------------------------------------------------------"
+    echo "                   INFORMACION CONFIGURACION M4-BACKUP SYSTEM"
+    echo "----------------------------------------------------------------------------------"
+    echo ""
+    cat $CONFIG_FILE | sed "s/PASSWORD=$PASSWORD/PASSWORD=******/gi"
+    echo ""
+    echo "----------------------------------------------------------------------------------"
+    echo "                             INFORMACION BACKUP"
+    echo "----------------------------------------------------------------------------------"
+    echo ""
+    mega-sync
+    echo ""
+    echo "----------------------------------------------------------------------------------"
+    echo "                          INFORMACION CUENTA MEGA"
+    echo "----------------------------------------------------------------------------------"
+    echo ""
+    mega-whoami -l
+fi
