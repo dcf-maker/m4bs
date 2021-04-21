@@ -8,20 +8,17 @@ on:
       - '*'
 
 jobs:
-  # Job Build"
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v2
-      # Runs a single command using the runners shell
       - name: Run a one-line script
         run: pwd
-        
+
       - name: Get version
         id: get_version
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-        
+
       - run: mkdir -p m4bs/bin; ls -l
       - run: |
           mkdir -p m4bs/bin
@@ -29,9 +26,9 @@ jobs:
           mkdir -p m4bs/var
           mkdir -p m4bs/temp
           mkdir -p m4bs/cgi
-          
+
           echo "VERSION=${{ steps.get_version.outputs.VERSION }}" > m4bs/var/version
-          
+
           echo "USER=" > m4bs/etc/m4bs.cfg
           echo "PASSWORD=" >> m4bs/etc/m4bs.cfg
           echo "STARTBOOT=no" >> m4bs/etc/m4bs.cfg

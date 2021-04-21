@@ -1,48 +1,30 @@
-# This is a basic workflow to help you get started with Actions
 
-# name: CI
-
-# Controls when the action will run. 
-# on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
 
 name: compile
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
    push:
-     branches: [ disabled ]
-   pull_request:
-     branches: [ disabled ]
+     branches: [ develop ]
 jobs:
-  # Job Build"
   build:
-    runs-on: mac-david
-
+    runs-on: ubuntu-latest
     steps:
-      #- run: rm -rf /Users/destroyer/SERVIDOR-GIT/actions-runner/_work/m4-backup-system/m4-backup-system
       - uses: actions/checkout@v2
-      # Runs a single command using the runners shell
       - name: Run a one-line script
         run: pwd
-        
+
       - name: Get version
         id: get_version
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-        
-      - run: mkdir -p m4bs/bin; ls -l
+
       - run: |
           mkdir -p m4bs/bin
           mkdir -p m4bs/etc
           mkdir -p m4bs/var
           mkdir -p m4bs/temp
           mkdir -p m4bs/cgi
-          
+
           echo "VERSION=${{ steps.get_version.outputs.VERSION }}" > m4bs/var/version
-          
+
           echo "USER=" > m4bs/etc/m4bs.cfg
           echo "PASSWORD=" >> m4bs/etc/m4bs.cfg
           echo "STARTBOOT=no" >> m4bs/etc/m4bs.cfg
@@ -51,38 +33,12 @@ jobs:
           echo "M4IP=" >> m4bs/etc/m4bs.cfg
           echo "UPDATE=1" >> m4bs/etc/m4bs.cfg
           cp var/info.txt m4bs/var/info.txt
+          cp bin/*.* m4bs/bin
+          cp etc/*.* m4bs/etc
+          cp var/*.* m4bs/var
+          cp cgi/*.* m4bs/cgi
 
-      #- name: install shc
-      #  run: sudo apt-get install shc
-      #  run: rm -f bin/*.x ; rm -f bin/*.c
-
-      # compile and move
-      - name: compile and move output folder
-        run: |
-
-          cd bin
-          ls -l
-          for file in *
-          do
-            echo $file
-            shc -v -r -f $file
-            mv $file.x ../m4bs/bin/$file
-          done
-          cd ..
-          zip -r m4bs.zip m4bs
-      # upload artifact
       - uses: actions/upload-artifact@v2
         with:
           name: binaries
           path: m4bs/
-
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-            SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-            ARGS: "-rltgoDzvO --delete"
-            SOURCE: "m4bs/"
-            REMOTE_HOST: "192.168.2.102"
-            REMOTE_USER: "amstrad"
-            TARGET: "/home/amstrad/.m4bs"
-            EXCLUDE: "/etc/m4bs.cfg"
