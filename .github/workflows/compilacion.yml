@@ -24,16 +24,8 @@ jobs:
 
           echo "VERSION=${{ steps.get_version.outputs.VERSION }}" > m4bs/var/version
 
-          echo "USER=" > m4bs/etc/m4bs.cfg
-          echo "PASSWORD=" >> m4bs/etc/m4bs.cfg
-          echo "STARTBOOT=no" >> m4bs/etc/m4bs.cfg
-          echo "LOCALPATH=" >> m4bs/etc/m4bs.cfg
-          echo "REMOTEPATH=/M4" >> m4bs/etc/m4bs.cfg
-          echo "M4IP=" >> m4bs/etc/m4bs.cfg
-          echo "UPDATE=1" >> m4bs/etc/m4bs.cfg
           cp var/info.txt m4bs/var/info.txt
           cp bin/* m4bs/bin
-          cp etc/* m4bs/etc
           cp var/* m4bs/var
           cp cgi/* m4bs/cgi
 
