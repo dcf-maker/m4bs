@@ -1,6 +1,6 @@
 # M4-BACKUP SYSTEM
 
-Backup para la M4 Motherboard
+Sistema de Backup Online para la M4 Board Amstrad
 
 ## Requisitos
 ### Software
@@ -18,6 +18,7 @@ Backup para la M4 Motherboard
 - whiptail
 - erlang-getopt
 - apache2
+- jq
 - shc
 ```
 
@@ -31,5 +32,5 @@ Backup para la M4 Motherboard
 ### Activaciones
 - a2enmod cgi
 
-### Otros
 
+sdfasdfasdfa
