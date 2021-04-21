@@ -18,7 +18,6 @@ jobs:
 
       - run: |
           mkdir -p m4bs/bin
-          mkdir -p m4bs/etc
           mkdir -p m4bs/var
           mkdir -p m4bs/temp
           mkdir -p m4bs/cgi
