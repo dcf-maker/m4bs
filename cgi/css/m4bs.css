@@ -29,6 +29,7 @@
   width: calc(100% - 17.5rem);  
   margin-left: 17.5rem;
   transition: all 0.4s;
+  height: 100vh;*/
 }
 
 /* for toggle behavior */
@@ -129,5 +130,22 @@ a:active {
   height: 3px; /* Set the hr color */ 
   color: yellow; /* old IE */ 
   background-color: yellow; /* Modern Browsers */
-  
+}
+
+.scroll-container {
+  margin: auto;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rule
+{
+  display: flex;
+  align-items: stretch;
 }

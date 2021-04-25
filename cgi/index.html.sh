@@ -1,0 +1,113 @@
+
+#!/bin/bash
+
+# Variable Globales
+
+CONFIG_PATH=$HOME/.m4bs
+CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
+
+source $CONFIG_FILE
+source "${CONFIG_PATH}/var/version"
+
+echo "Content-type: text/html"
+echo ""
+
+echo '<!DOCTYPE html>'
+echo '<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'
+echo '    <meta name="robots" content="noindex, nofollow">'
+echo '    <title>M4 BACKUP SYSTEM - Backup online para M4 Board</title>'
+echo '    <link href="css/bootstrap.min.css" rel="stylesheet">'
+echo '    <link href="css/m4bs.css" rel="stylesheet">'
+echo '    <script src="js/jquery-3.3.1.slim.min.js"></script>'
+echo '    <script src="js/bootstrap.bundle.min.js"></script>'
+echo '</head>'
+echo '<body>'
+echo '  <!-- Vertical navbar -->'
+echo '  <div class="vertical-nav cuadro" id="sidebar">'
+echo '    <div class="py-4 px-3 mb-4">'
+echo '      <div class="media d-flex align-items-center"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">'
+echo '        <div class="media-body">'
+echo '          <h4 class="m-0 text-console" align="center">M4BS</h4>'
+echo '          <p class="font-weight-light text-titulo mb-0" align="center">Version ${VERSION}</p>'
+echo '        </div>'
+echo '      </div>'
+echo '    </div>'
+
+echo '    <p class="text-console font-weight-bold text-titulo text-uppercase px-3 small pb-4 mb-0">Main</p>'
+
+echo '    <ul class="nav flex-column mb-0">'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Home'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          About'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Services'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Gallery'
+echo '        </a>'
+echo '      </li>'
+echo '    </ul>'
+
+echo '    <p class="text-console font-weight-bold text-titulo text-uppercase px-3 small py-4 mb-0">Charts</p>'
+
+echo '    <ul class="nav flex-column mb-0">'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Home'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          About'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Services'
+echo '        </a>'
+echo '      </li>'
+echo '      <li class="nav-item">'
+echo '        <a href="#" class="nav-link text-console">'
+echo '          Gallery'
+echo '        </a>'
+echo '      </li>'
+echo '    </ul>'
+echo '  </div>'
+echo '  <!-- End vertical navbar -->'
+
+echo '  <!-- Page content holder -->'
+echo '  <div class="page-content p-5 cuadro text-console" id="content">'
+echo '    <!-- Toggle button -->'
+echo '    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>'
+
+echo '    <!--content -->'
+echo '    <h4 class="display-4 text-white">Bootstrap vertical nav</h4>'
+echo '    <p class="lead mb-0">Build a fixed sidebar using Bootstrap 4 vertical navigation and media objects.</p>'
+echo '    <p class="lead">Snippet by <a href="https://bootstrapious.com/snippets">'
+echo '      <u>Bootstrapious</u></a>'
+echo '    </p>'
+echo '   <div class="separator"></div>'
+echo '    <div class="row">'
+echo '      <div class="col-lg-6">'
+echo '        <p class="lead text-page">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure'
+echo '        </p>'
+echo '      </div>'
+echo '      <div class="col-lg-6">'
+echo '        <p class="lead text-page">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure'
+echo '        </p>'
+echo '      </div>'
+echo '    </div>'
+echo '  </div>'
+echo '  <!-- End content -->'
+
+echo '</body></html>'
