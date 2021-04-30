@@ -18,6 +18,7 @@ jobs:
 
       - run: |
           mkdir -p m4bs
+          pwd
           dpkg-deb --build .
           ls -l
       - uses: actions/upload-artifact@v2
