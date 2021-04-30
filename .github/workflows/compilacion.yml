@@ -17,12 +17,14 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - run: |
+          source "/usr/share/doc/m4bs/version"
           mkdir -p m4bs
           pwd
           dpkg-deb --build /home/runner/work/m4bs/m4bs
           cd /home/runner/work/m4bs
+          mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-$VERSION_armhf.deb
           ls -l
       - uses: actions/upload-artifact@v2
         with:
-          name: binaries
+          name: m4bs-$VERSION_armhf
           path: m4bs/
