@@ -31,6 +31,3 @@ Sistema de Backup Online para la M4 Board Amstrad
 
 ### Activaciones
 - a2enmod cgi
-
-
-sdfasdfasdfa
