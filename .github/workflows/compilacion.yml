@@ -19,7 +19,7 @@ jobs:
       - run: |
           mkdir -p m4bs
           dpkg-deb --build .
-          cp *.deb m4bs
+          ls -l
       - uses: actions/upload-artifact@v2
         with:
           name: binaries
