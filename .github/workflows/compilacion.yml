@@ -12,9 +12,12 @@ jobs:
       - name: Run a one-line script
         run: pwd
 
+#      - name: Get version
+#        id: get_version
+#        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Get version
         id: get_version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+        run: source "usr/share/doc/m4bs/version";echo ${VERSION}
 
       - run: |
           pwd
@@ -30,5 +33,5 @@ jobs:
           ls -l
       - uses: actions/upload-artifact@v2
         with:
-          name: m4bs-$VERSION_armhf
+          name: m4bs-${get_version}_armhf
           path: m4bs/
