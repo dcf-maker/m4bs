@@ -26,35 +26,7 @@ get_user() {
 
 get_user
 
-# Variable Globales
+# Programa
 
-CONFIG_PATH=$HOME/.m4bs
-CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
-LOG_FILE=$CONFIG_PATH/temp/m4bs.log
-
-# Funciones del programa
-
-do_log() {
-	fecha=`date '+%Y-%m-%d %H:%M'`
-	echo "[$fecha]:$1" >> "$LOG_FILE"
-}
-
-# Comprobamos estado de MEGA
-
-if [ -f "${CONFIG_FILE}" ]; then
-	source "${CONFIG_FILE}"
-else
-	do_log "[ERROR] El archivo de configuraciones no existe. Vuelva a reinstalar la aplicación"
-	exit 1
-fi
-
-SALIDA=$(cat $CONFIG_FILE | sed "s/PASSWORD=$PASSWORD/PASSWORD=******/gi")
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
-    echo $SALIDA
-    exit 0
-else
-    echo "Se ha producido un error y no se pueden mostrar la configuraciones"
-    exit 1
-fi
+tail -n10000 /var/log/syslog | grep "m4bs"
 

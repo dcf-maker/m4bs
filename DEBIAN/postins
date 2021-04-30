@@ -1,0 +1,16 @@
+#!/bin/bash
+
+FILE=/etc/m4bs.conf
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+else 
+    echo "$FILE does not exist. Create"
+    echo "USER=" > $FILE
+    echo "PASSWORD=" > $FILE
+    echo "STARTBOOT=no" > $FILE
+    echo "LOCALPATH=" > $FILE
+    echo "REMOTEPATH=/M4" > $FILE
+    echo "M4IP=" > $FILE
+fi
+
+chmod 777 $FILE

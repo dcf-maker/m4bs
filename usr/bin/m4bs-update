@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+do_log() {
+  logger -t "[${0##*/}]:$1"
+}
 
 get_user() {
 	if [ "$EUID" == 0 ]; then
@@ -27,21 +30,21 @@ get_user() {
 
 # Variable Globales
 
-CONFIG_PATH=$HOME/.m4bs
-CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
-LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+CONFIG_FILE=/etc/m4bs.conf
 API_URL="https://api.github.com/repos/dcf-maker/m4bs"
 
 
 get_user
 
-if [ -f "${CONFIG_PATH}/var/version" ]; then
-	source "${CONFIG_PATH}/var/version"
+if [ -f "/usr/share/doc/m4bs/version" ]; then
+	source "/usr/share/doc/m4bs/version"
+	do_log "[INFO ] Version Actual: $VERSION."
 else
 	VERSION="0.0"
 fi
 
 NEW_VERSION=$(curl --silent $API_URL/releases/latest | jq -r '.tag_name')
+do_log "[INFO ] Chequeo Remote version: $NEW_VERSION."
 
 do_help() {
 	echo ""
@@ -72,18 +75,19 @@ do_answer() {
 }
 
 do_update() {
-
-	if [ "$NEW_VERSION" != "$VERSION" ]; then
-		cd $HOME/.m4bs
-		git checkout main
-		git fetch --all
-		git reset --hard origin/main
-		git pull
-		echo Updated with the latest!
-	else
-		echo "m4bs esta actualizado!!"
-		exit 0
-	fi
+	do_log "[INFO ] Existe Nueva version: $NEW_VERSION."
+	do_log "[INFO ] Comenzamos proceso de actualizacion....."
+#	if [ "$NEW_VERSION" != "$VERSION" ]; then
+#		cd $HOME/.m4bs
+#		git checkout main
+#		git fetch --all
+##		git reset --hard origin/main
+#		git pull
+#		echo Updated with the latest!
+#	else
+#		echo "m4bs esta actualizado!!"
+#		exit 0
+#	fi
 
 }
 
@@ -93,9 +97,11 @@ while [ -n "$1" ]; do # while loop starts
 	case "$1" in
 		-b)
 			if [ "$NEW_VERSION" != "$VERSION" ]; then
+				do_log "[INFO ] Chequeamos version..."
 				echo "Nueva Version disponible: $NEW_VERSION"
 				exit 99
 			else
+				do_log "[INFO ] Software esta actualizado!!"
 				echo "m4bs esta actualizado!!"
 				exit 0
 			fi
@@ -122,7 +128,6 @@ while [ -n "$1" ]; do # while loop starts
 		*) echo "Option $1 not recognized"; do_help ;;
 		esac
 		shift
-
 done
 do_help
 exit

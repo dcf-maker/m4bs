@@ -28,24 +28,27 @@ get_user
 
 # Variable Globales
 
-CONFIG_PATH=$HOME/.m4bs
-CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
-LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+CONFIG_FILE=/etc/m4bs.conf
 
 # Funciones del programa
 
 do_log() {
-	fecha=`date '+%Y-%m-%d %H:%M'`
-	echo "[$fecha]:$1" |& tee -a "$LOG_FILE"
+  logger -t "[${0##*/}]:$1"
 }
 
-# Paramos MEGA
+# Comprobamos estado de MEGA
 
-mega-logout | tee -a "$LOG_FILE"
+SALIDA=$(mega-whoami 2>&1)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-    do_log "[INFO ] Servicio MEGA parado."
+    #echo "$(tput setaf 2)ONLINE"
+    do_log "[INFO ] Chequeo status: ONLINE."
+    echo "ONLINE"
+    exit 0
 else
-    do_log "[ERROR] $exitstatus al parar el servicio MEGA."
+    #echo "$(tput setaf 1)OFFLINE"
+    do_log "[INFO ] Chequeo status: OFFLINE."
+    echo "OFFLINE"
     exit 1
 fi
+

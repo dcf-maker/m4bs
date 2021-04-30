@@ -28,15 +28,12 @@ get_user
 
 # Variables Globales
 
-CONFIG_PATH=$HOME/.m4bs
-CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
-LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+CONFIG_FILE=/etc/m4bs.conf
 
 # Funciones del programa
 
 do_log() {
-	fecha=`date '+%Y-%m-%d %H:%M'`
-	echo "[$fecha]:$1" |& tee -a "$LOG_FILE"
+  logger -t "[${0##*/}]:$1"
 }
 
 # Comprobamos si existe el fichero de propiedades
@@ -46,8 +43,27 @@ if [ ! -e "$CONFIG_FILE" ] ; then
     exit 1
 else
     source $CONFIG_FILE
-    #do_log "[INFO ] Cargamos configuraciones $CONFIG_FILE"
+    do_log "[INFO ] Cargamos configuraciones $CONFIG_FILE"
 fi
+
+### Print total arguments and their values
+ 
+echo "Total Arguments:" $#
+echo "All Arguments values:" $@
+ 
+### Command arguments can be accessed as
+ 
+echo "First->"  $1
+echo "Second->" $2
+ 
+# You can also access all arguments in an array and use them in a script.
+ 
+args=("$@")
+echo "First->"  ${args[0]} 
+echo "Second->" ${args[1]}
+
+exit
+
 
 # Arrancamos Mega
 CHECK=$(m4bs-status)

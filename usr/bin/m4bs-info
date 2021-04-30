@@ -28,15 +28,12 @@ get_user
 
 # Variable Globales
 
-CONFIG_PATH=$HOME/.m4bs
-CONFIG_FILE=$CONFIG_PATH/etc/m4bs.cfg
-LOG_FILE=$CONFIG_PATH/temp/m4bs.log
+CONFIG_FILE=/etc/m4bs.conf
 
 # Funciones del programa
 
 do_log() {
-	fecha=`date '+%Y-%m-%d %H:%M'`
-	echo "[$fecha]:$1" >>"$LOG_FILE"
+  logger -t "[${0##*/}]:$1"
 }
 
 if [ -f "${CONFIG_FILE}" ]; then
