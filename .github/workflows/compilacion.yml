@@ -3,7 +3,7 @@
 name: compile
 on:
    push:
-     branches: [ ninguna ]
+     branches: [ develop ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,18 +17,9 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - run: |
-          mkdir -p m4bs/bin
-          mkdir -p m4bs/var
-          mkdir -p m4bs/temp
-          mkdir -p m4bs/cgi
-
-          echo "VERSION=${{ steps.get_version.outputs.VERSION }}" > m4bs/var/version
-
-          cp var/info.txt m4bs/var/info.txt
-          cp bin/* m4bs/bin
-          cp var/* m4bs/var
-          cp cgi/* m4bs/cgi
-
+          mkdir -p m4bs
+          dpkg-deb --build .
+          cp *.deb m4bs
       - uses: actions/upload-artifact@v2
         with:
           name: binaries
