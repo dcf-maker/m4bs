@@ -21,9 +21,11 @@ jobs:
           mkdir -p m4bs
           ls -l
           source "usr/share/doc/m4bs/version"
+          echo "La version es: "${VERSION}
           dpkg-deb --build /home/runner/work/m4bs/m4bs
           cd /home/runner/work/m4bs
-          mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-$VERSION_armhf.deb
+          ls -l
+          mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
           ls -l
       - uses: actions/upload-artifact@v2
