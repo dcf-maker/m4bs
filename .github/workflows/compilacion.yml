@@ -17,10 +17,10 @@ jobs:
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - run: |
-          source "/usr/share/doc/m4bs/version"
+          pwd
           mkdir -p m4bs
           ls -l
-          pwd
+          source "usr/share/doc/m4bs/version"
           dpkg-deb --build /home/runner/work/m4bs/m4bs
           cd /home/runner/work/m4bs
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-$VERSION_armhf.deb
