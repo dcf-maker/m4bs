@@ -24,6 +24,7 @@ jobs:
           dpkg-deb --build /home/runner/work/m4bs/m4bs
           cd /home/runner/work/m4bs
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-$VERSION_armhf.deb
+          cd m4bs/m4bs
           ls -l
       - uses: actions/upload-artifact@v2
         with:
