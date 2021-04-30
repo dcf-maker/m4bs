@@ -3,7 +3,7 @@ Priority: optional
 Section: misc
 Maintainer: dcf-maker <dcf.maker@gmail.com>
 Architecture: armfh 
-Version: 0.0.5
+Version: 0.0.6
 Replaces: 
 Depends: git, telnet, telnetd, curl, dialog, apache2, jq, megacmd
 Description: m4bs Backup online
