@@ -23,6 +23,11 @@ jobs:
           chmod 755 DEBIAN/postins
           chmod 755 DEBIAN/postrm
           chmod 755 DEBIAN/prerm
+          rm -rf .git
+          rm -rf .github
+          rm -rf README*
+          rm -rf LICE*
+          
           ls -l
           source "usr/share/doc/m4bs/version"
           echo "La version es: "${VERSION}
