@@ -1,6 +1,13 @@
 #!/bin/bash
 
-echo "deb https://dcf-maker.github.io/ppa/ buster stable" > /home/m4bs/m4bs.list
+
+
+if [ -z "$2" ]; then
+    echo "deb https://dcf-maker.github.io/ppa/ buster stable" > /home/m4bs/m4bs.list
+else
+    echo "deb https://dcf-maker.github.io/ppa/ buster stable" > /home/m4bs/m4bs.list
+fi
+
 
 if [ "$1" == "configure" ]; then
     FILE=/etc/m4bs.conf
