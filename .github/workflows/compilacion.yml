@@ -41,6 +41,9 @@ jobs:
           mv m4bs-${VERSION}_armhf.deb ppa
           cd ppa
           ls -l
+          git add .
+          git commit -m "subida de la version ${VERSION}"
+          git push
       - uses: actions/upload-artifact@v2
         with:
           name: m4bs
