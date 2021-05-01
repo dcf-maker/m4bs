@@ -19,6 +19,9 @@ jobs:
       - run: |
           pwd
           mkdir -p m4bs
+          chmod 755 DEBIAN/postins
+          chmod 755 DEBIAN/postrm
+          chmod 755 DEBIAN/prerm
           ls -l
           source "usr/share/doc/m4bs/version"
           echo "La version es: "${VERSION}
