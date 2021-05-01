@@ -17,11 +17,7 @@ if [ "$1" == "configure" ]; then
     chmod 777 $FILE
 
 
-    if [ -d /etc/apt/sources.list.d ]; then
-        cat >/etc/apt/sources.list.d/m4bs.list <<EOF
-        deb deb https://dcf-maker.github.io/ppa/raspbian ./
-        EOF
-    fi
+    echo "deb https://dcf-maker.github.io/ppa/ buster stable" > /etc/apt/sources.list.d/m4bs.list
 
     apt-key add - >/dev/null 2>&1 <<KEY
     -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -65,5 +61,6 @@ if [ "$1" == "configure" ]; then
     mh9l+r+RPZwGqNUsI8iQcYhu7tLZAA==
     =Ul3U
     -----END PGP PUBLIC KEY BLOCK-----
-    KEY
+KEY
+
 fi
