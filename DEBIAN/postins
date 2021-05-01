@@ -18,9 +18,9 @@ if [ "$1" == "configure" ]; then
 
 
     if [ -d /etc/apt/sources.list.d ]; then
-    cat >/etc/apt/sources.list.d/m4bs.list <<EOF
-    deb deb https://dcf-maker.github.io/ppa/raspbian ./
-    EOF
+        cat >/etc/apt/sources.list.d/m4bs.list <<EOF
+        deb deb https://dcf-maker.github.io/ppa/raspbian ./
+        EOF
     fi
 
     apt-key add - >/dev/null 2>&1 <<KEY
