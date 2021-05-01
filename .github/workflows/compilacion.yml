@@ -18,6 +18,7 @@ jobs:
 
       - run: |
           pwd
+          ls -ltra
           mkdir -p m4bs
           chmod 755 DEBIAN/postins
           chmod 755 DEBIAN/postrm
