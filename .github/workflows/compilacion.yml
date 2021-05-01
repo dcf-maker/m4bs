@@ -27,7 +27,7 @@ jobs:
           rm -rf .github
           rm -rf README*
           rm -rf LICE*
-          
+          rm -rf .gitignore
           ls -l
           source "usr/share/doc/m4bs/version"
           echo "La version es: "${VERSION}
@@ -36,6 +36,10 @@ jobs:
           ls -l
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
+          ls -l
+          git clone https://github.com/dcf-maker/ppa.git
+          mv m4bs-${VERSION}_armhf.deb ppa
+          cd ppa
           ls -l
       - uses: actions/upload-artifact@v2
         with:
