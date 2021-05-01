@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "deb https://dcf-maker.github.io/ppa/ buster stable" > /home/m4bs/m4bs.list
+
 if [ "$1" == "configure" ]; then
     FILE=/etc/m4bs.conf
     if [ -f "$FILE" ]; then
