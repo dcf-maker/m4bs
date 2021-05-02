@@ -18,7 +18,7 @@ jobs:
 
       - name: Get version
         id: get_version
-        run: source "usr/share/doc/m4bs/version"; echo $VERSION
+        run: source "usr/share/doc/m4bs/version";echo ::set-output name=VERSION::$(echo $VERSION)
 
       - run: |
           pwd
