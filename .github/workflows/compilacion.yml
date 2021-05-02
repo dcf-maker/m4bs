@@ -37,13 +37,25 @@ jobs:
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
           ls -l
-          git clone https://github.com/dcf-maker/ppa.git
-          mv m4bs-${VERSION}_armhf.deb ppa
+          #git clone https://github.com/dcf-maker/ppa.git
+          #mv m4bs-${VERSION}_armhf.deb ppa
           cd ppa
           ls -l
           git add .
           git commit -m "subida de la version ${VERSION}"
           git push
+          
+      - name: Pushes to another repository  
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'm4bs'
+          destination-github-username: 'dcf-maker'
+          destination-repository-name: 'ppa'
+          user-email: dcf-maker@gmail.com
+          target-branch: main
+
       - uses: actions/upload-artifact@v2
         with:
           name: m4bs
