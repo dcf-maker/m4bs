@@ -39,12 +39,12 @@ jobs:
           ls -l
           #git clone https://github.com/dcf-maker/ppa.git
           #mv m4bs-${VERSION}_armhf.deb ppa
-          cd ppa
-          ls -l
-          git add .
-          git commit -m "subida de la version ${VERSION}"
-          git push
-          
+          #cd ppa
+          #ls -l
+          #git add .
+          #git commit -m "subida de la version ${VERSION}"
+          #git push
+
       - name: Pushes to another repository  
         uses: cpina/github-action-push-to-another-repository@main
         env:
