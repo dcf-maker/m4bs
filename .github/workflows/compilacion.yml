@@ -57,7 +57,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
         with:
           source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
-          destination_repo: ppa
+          destination_repo: dcf-maker/ppa
           user_email: dcf.maker@gmail.com
           user_name: dcf-maker
           commit_message: 'A custom message for the commit'
