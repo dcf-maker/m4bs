@@ -49,9 +49,18 @@ jobs:
           git config --global user.name "dcf-maker"
           git add .
           git commit -m "subida de la version ${VERSION}"
-          git push https://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@github.com/dcf-maker/ppa.git
+          git push https://${{ secrets.PERMISOS }}@github.com/dcf-maker/ppa.git
 
-
+      - name: Pushes test file
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.ACTIONS }}
+        with:
+          source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
+          destination_repo: dcf-maker/ppa
+          user_email: dcf.maker@gmail.com
+          user_name: dcf-maker
+          commit_message: 'A custom message for the commit'
 
       - uses: actions/upload-artifact@v2
         with:
