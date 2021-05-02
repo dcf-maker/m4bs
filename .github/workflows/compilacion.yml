@@ -16,6 +16,10 @@ jobs:
 #        id: get_version
 #        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
+      - name: Get version
+        id: get_version
+        run: source "usr/share/doc/m4bs/version"; echo $VERSION
+
       - run: |
           pwd
           ls -ltra
@@ -50,7 +54,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source_file: 'm4bs/m4bs-${VERSION}_armhf.deb'
+          source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
           destination_repo: dcf-maker/ppa
           user_email: dcf.maker@gmail.com
           user_name: dcf-maker
