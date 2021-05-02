@@ -61,16 +61,16 @@ jobs:
       #     user_email: dcf.maker@gmail.com
       #     user_name: dcf-maker
       #     commit_message: 'A custom message for the commit'
-        - name: Copycat
-          uses: andstor/copycat-action@v3
-          with:
-            personal_token: ${{ secrets.ACTIONS }}
-            src_path: m4bs
-            dst_path: /
-            dst_owner: dcf-maker
-            dst_repo_name: dcf-maker.github.io/ppa
-            username: dcfmaker
-            email: dcf.maker@gmail.com
+      - name: Copycat
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{ secrets.ACTIONS }}
+          src_path: m4bs
+          dst_path: /
+          dst_owner: dcf-maker
+          dst_repo_name: dcf-maker.github.io/ppa
+          username: dcfmaker
+          email: dcf.maker@gmail.com
       - uses: actions/upload-artifact@v2
         with:
           name: m4bs
