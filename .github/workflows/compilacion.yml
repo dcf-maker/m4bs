@@ -41,26 +41,26 @@ jobs:
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
           ls -l
-          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/dcf-maker/ppa.git
-          mv m4bs-${VERSION}_armhf.deb ppa
-          cd ppa
-          ls -l
-          git config --global user.email "dcf.maker@gmail.com"
-          git config --global user.name "dcf-maker"
-          git add .
-          git commit -m "subida de la version ${VERSION}"
-          git push
+          # git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/dcf-maker/ppa.git
+          # mv m4bs-${VERSION}_armhf.deb ppa
+          # cd ppa
+          # ls -l
+          # git config --global user.email "dcf.maker@gmail.com"
+          # git config --global user.name "dcf-maker"
+          # git add .
+          # git commit -m "subida de la version ${VERSION}"
+          # git push
 
-      # - name: Pushes test file
-      #   uses: dmnemec/copy_file_to_another_repo_action@main
-      #   env:
-      #     API_TOKEN_GITHUB: ${{ secrets.ACTIONS }}
-      #   with:
-      #     source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
-      #     destination_repo: ppa
-      #     user_email: dcf.maker@gmail.com
-      #     user_name: dcf-maker
-      #     commit_message: 'A custom message for the commit'
+      - name: Pushes test file
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
+          destination_repo: ppa
+          user_email: dcf.maker@gmail.com
+          user_name: dcf-maker
+          commit_message: 'A custom message for the commit'
       # - name: Copycat
       #   uses: andstor/copycat-action@v3
       #   with:
