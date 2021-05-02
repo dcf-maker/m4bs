@@ -52,7 +52,7 @@ jobs:
       - name: Pushes test file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
-          API_TOKEN_GITHUB: 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
+          API_TOKEN_GITHUB: "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""
         with:
           source_file: m4bs/m4bs-${{ steps.get_version.outputs.VERSION }}_armhf.deb
           destination_repo: dcf-maker/ppa
