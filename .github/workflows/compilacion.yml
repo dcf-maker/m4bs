@@ -68,7 +68,7 @@ jobs:
           src_path: m4bs
           dst_path: /ddd
           dst_owner: dcf-maker
-          dst_repo_name: dcf-maker.github.io/ppa
+          dst_repo_name: ppa
           username: dcfmaker
           email: dcf.maker@gmail.com
       - uses: actions/upload-artifact@v2
