@@ -65,7 +65,7 @@ jobs:
         uses: andstor/copycat-action@v3
         with:
           personal_token: ${{ secrets.ACTIONS }}
-          src_path: m4bs
+          src_path: ddd
           dst_path: /ddd
           dst_owner: dcf-maker
           dst_repo_name: ppa
