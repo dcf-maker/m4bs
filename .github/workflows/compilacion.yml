@@ -41,15 +41,15 @@ jobs:
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
           ls -l
-          # git clone https://dcf-maker:${{ secrets.PERMISOS }}@github.com/dcf-maker/ppa.git
-          # mv m4bs-${VERSION}_armhf.deb ppa
-          # cd ppa
-          # ls -l
-          # git config --global user.email "dcf.maker@gmail.com"
-          # git config --global user.name "dcf-maker"
-          # git add .
-          # git commit -m "subida de la version ${VERSION}"
-          # git push
+          git clone https://${{ secrets.PERMISOS }}@github.com/dcf-maker/ppa.git
+          mv m4bs-${VERSION}_armhf.deb ppa
+          cd ppa
+          ls -l
+          git config --global user.email "dcf.maker@gmail.com"
+          git config --global user.name "dcf-maker"
+          git add .
+          git commit -m "subida de la version ${VERSION}"
+          git push
 
       # - name: Pushes test file
       #   uses: dmnemec/copy_file_to_another_repo_action@main
@@ -61,16 +61,16 @@ jobs:
       #     user_email: dcf.maker@gmail.com
       #     user_name: dcf-maker
       #     commit_message: 'A custom message for the commit'
-      - name: Copycat
-        uses: andstor/copycat-action@v3
-        with:
-          personal_token: ${{ secrets.ACTIONS }}
-          src_path: ddd
-          dst_path: /ddd
-          dst_owner: dcf-maker
-          dst_repo_name: ppa
-          username: dcfmaker
-          email: dcf.maker@gmail.com
+      # - name: Copycat
+      #   uses: andstor/copycat-action@v3
+      #   with:
+      #     personal_token: ${{ secrets.ACTIONS }}
+      #     src_path: ddd
+      #     dst_path: /ddd
+      #     dst_owner: dcf-maker
+      #     dst_repo_name: ppa
+      #     username: dcfmaker
+      #     email: dcf.maker@gmail.com
       - uses: actions/upload-artifact@v2
         with:
           name: m4bs
