@@ -41,7 +41,7 @@ jobs:
           mv m4bs.deb /home/runner/work/m4bs/m4bs/m4bs/m4bs-${VERSION}_armhf.deb
           cd m4bs/m4bs
           ls -l
-          git clone https://${{ secrets.PERMISOS }}@github.com/dcf-maker/ppa.git
+          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/dcf-maker/ppa.git
           mv m4bs-${VERSION}_armhf.deb ppa
           cd ppa
           ls -l
