@@ -5,3 +5,21 @@
 %readme README.md
 %description Kung Foo firewall software for your firewall.
 %version 0.0.40
+
+%requires git
+%requires telnet
+%requires telnetd
+%requires curl
+%requires dialog
+%requires apache2
+%requires jq
+%requires megacmd
+
+$prefix=/usr
+$exec_prefix=/usr
+$bindir=${exec_prefix}/bin
+$datadir=/usr/share
+$docdir=${datadir}/doc/epm
+$libdir=/usr/lib
+$mandir=/usr/share/man
+$srcdir=.
