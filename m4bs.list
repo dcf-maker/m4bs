@@ -6,7 +6,7 @@
 %version 1.0
 %readme README
 %license LICENSE
-%requires git, telnet, telnetd, curl, dialog, apache2, jq, megacmd
+%requires git
 
 $prefix=/usr
 $exec_prefix=/usr
