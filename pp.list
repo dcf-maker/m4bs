@@ -1,7 +1,7 @@
-%product Kung Foo Firewall
+%product m4bs
 %copyright 1999-2005 by Foo Industries, All Rights Reserved.
 %vendor Foo Industries
-%license COPYING
-%readme README
+%license LICENSE
+%readme README.md
 %description Kung Foo firewall software for your firewall.
-%version 1.2.3p4 1020304
+%version 0.0.40
