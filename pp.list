@@ -23,3 +23,14 @@ $docdir=${datadir}/doc/epm
 $libdir=/usr/lib
 $mandir=/usr/share/man
 $srcdir=.
+
+c 755 root root ${bindir}/m4bs-cli usr/bin/m4bs-cli
+c 755 root root ${bindir}/m4bs-info usr/bin/m4bs-info
+c 755 root root ${bindir}/m4bs-log usr/bin/m4bs-log
+c 755 root root ${bindir}/m4bs-mount usr/bin/m4bs-mount
+c 755 root root ${bindir}/m4bs-start usr/bin/m4bs-start
+c 755 root root ${bindir}/m4bs-status usr/bin/m4bs-status
+c 755 root root ${bindir}/m4bs-stop usr/bin/m4bs-stop
+c 755 root root ${bindir}/m4bs-update usr/bin/m4bs-update
+
+%postinstall echo "netbios n" >> /home/pi/pppp.txt
