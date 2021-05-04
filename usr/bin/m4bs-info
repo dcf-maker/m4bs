@@ -24,24 +24,18 @@ get_user() {
 	fi
 }
 
-get_user
-
-# Variable Globales
-
-CONFIG_FILE=/etc/m4bs.conf
-
-# Funciones del programa
-
 do_log() {
   logger -t "[${0##*/}]:$1"
 }
 
-if [ -f "${CONFIG_FILE}" ]; then
-	source "${CONFIG_FILE}"
-else
-	do_log "[ERROR] El archivo de configuraciones no existe. Vuelva a reinstalar la aplicación"
-	exit 1
-fi
+get_user
+
+# Cargamos fichero de propiedades y version
+
+m4bs-config
+
+CONFIG_FILE=$HOME/.m4bs.conf
+source $CONFIG_FILE
 
 # Paramos MEGA
 CHECK=$(m4bs-status)

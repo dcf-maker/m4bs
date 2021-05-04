@@ -24,27 +24,20 @@ get_user() {
 	fi
 }
 
-get_user
-
-# Variables Globales
-
-CONFIG_FILE=/etc/m4bs.conf
-
 # Funciones del programa
 
 do_log() {
   logger -t "[${0##*/}]:$1"
 }
 
-# Comprobamos si existe el fichero de propiedades
+get_user
 
-if [ ! -e "$CONFIG_FILE" ] ; then
-    do_log "[ERROR] El archivo de configuraciones no existe en la ruta $CONFIG_FILE"
-    exit 1
-else
-    source $CONFIG_FILE
-    do_log "[INFO ] Cargamos configuraciones $CONFIG_FILE"
-fi
+# Cargamos fichero de propiedades y version
+
+m4bs-config
+
+CONFIG_FILE=$HOME/.m4bs.conf
+source $CONFIG_FILE
 
 ### Print total arguments and their values
  

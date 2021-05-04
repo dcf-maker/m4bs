@@ -21,29 +21,29 @@ do_log() {
   logger -t "[${0##*/}]:$1"
 }
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
-		exit 1
-	fi
-}
 
-# Variable Globales
+# Cargamos fichero de propiedades y version
 
-CONFIG_FILE=/etc/m4bs.conf
-API_URL="https://api.github.com/repos/dcf-maker/m4bs"
+m4bs-config
+
+CONFIG_FILE=$HOME/.m4bs.conf
+source $CONFIG_FILE
 
 
-get_user
+# Installed=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
+# Candidate=`sudo apt-cache policy m4bs | sed -n '3p' | cut -c 14-`
 
-if [ -f "/usr/share/doc/m4bs/version" ]; then
-	source "/usr/share/doc/m4bs/version"
-	do_log "[INFO ] Version Actual: $VERSION."
-else
-	VERSION="0.0"
-fi
+# if [ "$Installed" -ne "$Candidate" ]; then
+# 	sudo apt-get update
+# 	sudo apt-get install --only-upgrade
+#     #apt-get -fy install openjdk-6-jre
+# elif [ "$Installed" -eq "$Candidate" ]; then 
+#     echo 'Candidate version already installed.'
+# fi
 
-NEW_VERSION=$(curl --silent $API_URL/releases/latest | jq -r '.tag_name')
+VERSION=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
+NEW_VERSION=`sudo apt-cache policy m4bs | sed -n '3p' | cut -c 14-`
+
 do_log "[INFO ] Chequeo Remote version: $NEW_VERSION."
 
 do_help() {
@@ -88,7 +88,14 @@ do_update() {
 #		echo "m4bs esta actualizado!!"
 #		exit 0
 #	fi
-
+	if [ "$NEW_VERSION" != "$VERSION" ]; then
+		sudo apt-get update
+		sudo apt-get install --only-upgrade m4bs
+		echo Updated with the latest!
+	else
+		echo "m4bs esta actualizado!!"
+		exit 0
+	fi
 }
 
 # Opciones del programa

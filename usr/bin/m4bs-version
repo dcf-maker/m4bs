@@ -17,26 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
-		exit 1
-	fi
-}
-
 do_log() {
   logger -t "[${0##*/}]:$1"
 }
 
-get_user
-
-# Paramos MEGA
-
-mega-logout
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
-    do_log "[INFO ] Servicio MEGA parado."
-else
-    do_log "[ERROR] $exitstatus al parar el servicio MEGA."
-    exit 1
-fi
+Installed=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
+echo $Installed
+exit

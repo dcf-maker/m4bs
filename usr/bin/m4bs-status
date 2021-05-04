@@ -24,12 +24,6 @@ get_user() {
 	fi
 }
 
-get_user
-
-# Variable Globales
-
-CONFIG_FILE=/etc/m4bs.conf
-
 # Funciones del programa
 
 do_log() {
@@ -37,6 +31,8 @@ do_log() {
 }
 
 # Comprobamos estado de MEGA
+
+get_user
 
 SALIDA=$(mega-whoami 2>&1)
 exitstatus=$?

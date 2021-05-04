@@ -24,11 +24,9 @@ get_user() {
 	fi
 }
 
-get_user
 
 ## Variable globales
 
-CONFIG_FILE=/etc/m4bs.conf
 STATUS=OFFLINE
 DIALOG_CANCEL=1
 DIALOG_ESC=255
@@ -334,14 +332,14 @@ do_menu_configurations(){
 #           MENU PRINCIPAL APLICACION               #
 #####################################################
 
+get_user
+
 # Cargamos fichero de propiedades y version
 
-if [ -f "${CONFIG_FILE}" ]; then
-	source "${CONFIG_FILE}"
-else
-	do_log "[ERROR] El archivo de configuraciones no existe. Vuelva a reinstalar la aplicación"
-	exit 1
-fi
+m4bs-config
+
+CONFIG_FILE=$HOME/.m4bs.conf
+source $CONFIG_FILE
 
 if [ -f "/usr/share/doc/m4bs/version" ]; then
 	source "/usr/share/doc/m4bs/version"
