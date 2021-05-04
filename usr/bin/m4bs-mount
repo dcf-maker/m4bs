@@ -27,7 +27,7 @@ get_user() {
 # Funciones del programa
 
 do_log() {
-  logger -t "[${0##*/}]:$1"
+  logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
 
 get_user

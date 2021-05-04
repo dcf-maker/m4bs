@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 do_log() {
-  logger -t "[${0##*/}]:$1"
+  logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
 
 

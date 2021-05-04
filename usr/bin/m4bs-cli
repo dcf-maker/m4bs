@@ -38,7 +38,7 @@ WIDTH=80
 ####################
 
 do_log() {
-  logger -t "[${0##*/}]:$1"
+  logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
 
 get_center(){
