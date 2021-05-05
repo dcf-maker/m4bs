@@ -43,6 +43,7 @@ if [ $exitstatus = 0 ]; then
     echo "antes de escribir en syslog"
     do_log "[INFO ] Chequeo status: ONLINE."
     echo "despues de escribir en syslog"
+    clear
     echo "ONLINE"
     exit 0
 else
@@ -50,6 +51,7 @@ else
     echo "antes de escribir en syslog"
     do_log "[INFO ] Chequeo status: OFFLINE."
     echo "despues de escribir en syslog"
+    clear
     echo "OFFLINE"
     exit 1
 fi
