@@ -24,10 +24,10 @@ do_log() {
 
 # Cargamos fichero de propiedades y version
 
-m4bs-config
+# m4bs-config
 
-CONFIG_FILE=$HOME/.m4bs.conf
-source $CONFIG_FILE
+# CONFIG_FILE=$HOME/.m4bs.conf
+# source $CONFIG_FILE
 
 
 # Installed=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
@@ -41,7 +41,7 @@ source $CONFIG_FILE
 #     echo 'Candidate version already installed.'
 # fi
 
-sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/m4bs.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" 1>/dev/null
+apt-get update -o Dir::Etc::sourcelist="sources.list.d/m4bs.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" 1>/dev/null
 
 VERSION=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
 NEW_VERSION=`sudo apt-cache policy m4bs | sed -n '3p' | cut -c 14-`
