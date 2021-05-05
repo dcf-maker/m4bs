@@ -19,12 +19,15 @@
 
 clear
 source /usr/share/doc/m4bs/version
+echo ""
+echo ""
 echo " ███    ███ ██   ██ ██████  ███████ "
 echo " ████  ████ ██   ██ ██   ██ ██      "
 echo " ██ ████ ██ ███████ ██████  ███████ "
 echo " ██  ██  ██      ██ ██   ██      ██ "
 echo " ██      ██      ██ ██████  ███████ "
 echo "                  by dcf-maker 2021 "
-echo "                      Version $VERSION "
+echo "                     Version $VERSION "
+echo ""
 
 

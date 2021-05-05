@@ -71,19 +71,19 @@ do_setProperty(){
 }
 
 function do_ip() {
-  M4IP=$(\
+  IPM4=$(\
     dialog --title " IP M4 Board " \
     --ok-label "Guardar" \
-    --inputbox "Escriba la direccion IP de su M4 Board:" 8 60 $M4IP \
+    --inputbox "Escriba la direccion IP de su M4 Board:" 8 60 $IPM4 \
     3>&1 1>&2 2>&3 3>&- \
   )
-  if get_valid_ip "$M4IP"; then
-    do_setProperty "M4IP" "$M4IP"
+  if get_valid_ip "$IPM4"; then
+    do_setProperty "IPM4" "$IPM4"
   else
     dialog --title " ERROR - IP " \
     --ok-label "Cerrar" \
     --no-collapse \
-    --msgbox "La IP que ha escrito no es valida. Por favor vuelva a escribirla." 15 60
+    --msgbox "La IP $IPM4 que ha escrito no es valida. Por favor vuelva a escribirla." 15 60
     do_ip
   fi
   
