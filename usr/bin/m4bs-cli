@@ -89,6 +89,25 @@ function do_ip() {
   
 }
 
+function do_update() {
+  IPM4=$(\
+    dialog --title " IP M4 Board " \
+    --ok-label "Guardar" \
+    --inputbox "Escriba la direccion IP de su M4 Board:" 8 60 $IPM4 \
+    3>&1 1>&2 2>&3 3>&- \
+  )
+  if get_valid_ip "$IPM4"; then
+    do_setProperty "IPM4" "$IPM4"
+  else
+    dialog --title " ERROR - IP " \
+    --ok-label "Cerrar" \
+    --no-collapse \
+    --msgbox "La IP $IPM4 que ha escrito no es valida. Por favor vuelva a escribirla." 15 60
+    do_ip
+  fi
+  
+}
+
 function do_user() {
   USER=$(\
     dialog --title " Usuario MEGA " \
@@ -284,11 +303,12 @@ do_menu_principal(){
     --ok-label "Seleccionar" \
     --cancel-label "Salir" \
     --menu "Status: $STATUS"  $HEIGHT $WIDTH 9 \
-    "1" "Información M4-BACKUP" \
+    "1" "Información M4BS" \
     "2" "Configurar Backup" \
-    "3" "Arrancar M4-Backup" \
-    "4" "Parar M4-Backup" \
-    "5" "Release Notes" 2>&1 1>&3)
+    "3" "Arrancar M4BS" \
+    "4" "Parar M4BS" \
+    "5" "Actualizar M4BS" \
+    "6" "Release Notes" 2>&1 1>&3)
     exit_status=$?
     exec 3>&-
     case $exit_status in
@@ -306,7 +326,8 @@ do_menu_principal(){
       2 )do_menu_configurations;;
       3 )do_start;;
       4 )do_stop;;
-      5 )
+      5 )do_update;;
+      6 )
         do_about;;
     esac
   done

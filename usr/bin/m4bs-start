@@ -42,7 +42,7 @@ CHECK=$(m4bs-status)
 
 if [ "$CHECK" = "OFFLINE" ]; then
 
-    if [ -z "$USER" ] || [ -z "$PASSWORD" ] || [ -z "$LOCALPATH" ] || [ -z "$REMOTEPATH" ] !! [ -z "$IPM4" ]
+    if [ -z "$USER" ] || [ -z "$PASSWORD" ] || [ -z "$LOCALPATH" ] || [ -z "$REMOTEPATH" ] || [ -z "$IPM4" ]
     then
         do_log "[ERROR] Faltan por configurar datos del backup."
         echo "[ERROR] Faltan por configurar datos del backup."
