@@ -19,7 +19,6 @@
 
 apt-get update -o Dir::Etc::sourcelist="sources.list.d/m4bs.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
 apt-get install m4bs -y
-
 exit
 
 do_log() {
