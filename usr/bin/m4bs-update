@@ -17,6 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+apt-get update -o Dir::Etc::sourcelist="sources.list.d/m4bs.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
+apt-get install m4bs
+exit
+
 do_log() {
   logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
@@ -91,7 +95,7 @@ do_update() {
 #		exit 0
 #	fi
 	if [ "$NEW_VERSION" != "$VERSION" ]; then
-		sudo apt-get install m4bs
+		apt-get install m4bs
 		echo "Actualizado a la ultima version!!"
 	else
 		echo "m4bs esta actualizado!!!!"
