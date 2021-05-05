@@ -193,6 +193,8 @@ do_start(){
       SALIDA="M4-Backup System Arrancado";;
     2)
       SALIDA="[Error: 2] Argumento erroneo al arrancar.";;
+    8)
+      SALIDA="[Error: 8] Falta configurar datos del backup";;
     9)
       SALIDA="[Error: 9] Usuario o Password MEGA incorrectos";;
     6)

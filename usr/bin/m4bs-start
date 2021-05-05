@@ -41,6 +41,14 @@ source $CONFIG_FILE
 CHECK=$(m4bs-status)
 
 if [ "$CHECK" = "OFFLINE" ]; then
+    ### Validacion de datos
+
+    if [ -z "$USER" ] || [ -z "$PASSWORD" ] || [ -z "$LOCALPATH" ] || [ -z "$REMOTEPATH" ] !! [ -z "$IPM4" ]
+    then
+        do_log "[ERROR] Faltan por configurar datos del backup."
+        echo "[ERROR] Faltan por configurar datos del backup."
+        exit 8
+    fi
     pkill -f "mega-cmd-server" # Matamos el servidor de MEGA por si estubiera bloqueando
     mega-login $USER $PASSWORD
     exitstatus=$?
