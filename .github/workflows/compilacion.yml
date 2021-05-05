@@ -3,7 +3,7 @@
 name: compile
 on:
    push:
-     branches: [ develop ]
+     branches: [ prueba ]
 jobs:
   build:
     runs-on: ubuntu-latest

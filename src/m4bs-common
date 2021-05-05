@@ -17,39 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con usuario root"
-		exit 1
-	fi
-}
-
-do_log() {
-  logger -p local0.notice -t [${0##*/}]:[$$] $1
-}
 
 
-do_conf() {
-    echo "USER=" > $HOME/.m4bs.conf
-    echo "PASSWORD=" >> $HOME/.m4bs.conf
-    echo "STARTBOOT=no" >> $HOME/.m4bs.conf
-    echo "LOCALPATH=" >> $HOME/.m4bs.conf
-    echo "REMOTEPATH=/M4" >> $HOME/.m4bs.conf
-    echo "IPM4=" >> $HOME/.m4bs.conf
-}
-
-# Comprobamos si existe el fichero de propiedades
-
-get_user
-
-# Variables Globales
-
-if [ ! -e "$HOME/.m4bs.conf" ] ; then
-    #do_log "[WARNING] El archivo de configuraciones no existe en la ruta $HOME/.m4bs.conf lo creamos"
-    echo "[WARNING] El archivo de configuraciones no existe en la ruta $HOME/.m4bs.conf lo creamos"
-    do_conf
-    source $HOME/.m4bs.conf
-    exit 0
-fi
-
-exit 0
+export CONFIG_FILE=$HOME/.m4bs/etc/m4bs.conf
+export VERSION_FILE=$(cat $HOME/.m4bs/var/version)
+source $CONFIG_FILE

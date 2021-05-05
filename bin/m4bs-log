@@ -17,11 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-do_log() {
-  logger -p local0.notice -t [${0##*/}]:[$$] $1
-}
+source $HOME/.m4bs/src/m4bs-common
+source $HOME/.m4bs/src/m4bs-utils
 
-Installed=`sudo apt-cache policy m4bs | sed -n '2p' | cut -c 14-` 
-echo $Installed
-do_log $Installed
-exit
+get_user
+
+# Programa
+
+tail -n10000 /var/log/syslog | grep "m4bs"
+

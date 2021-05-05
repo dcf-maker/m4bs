@@ -17,33 +17,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con usuario root"
-		exit 1
-	fi
-}
-
-do_log() {
-  logger -p local0.notice -t [${0##*/}]:[$$] $1
-}
+source $HOME/.m4bs/src/m4bs-common
+source $HOME/.m4bs/src/m4bs-utils
 
 get_user
 
-# Cargamos fichero de propiedades y version
+# Paramos MEGA
 
-m4bs-config
-
-CONFIG_FILE=$HOME/.m4bs.conf
-source $CONFIG_FILE
-
-### comprobamos conexion con la M4
-
-if ping -c 1 $IPM4 &> /dev/null
-then
-  exit 1
+mega-logout
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    do_log "[INFO ] Servicio MEGA parado."
 else
-  exit 0
+    do_log "[ERROR] $exitstatus al parar el servicio MEGA."
+    exit 1
 fi
-
-exit

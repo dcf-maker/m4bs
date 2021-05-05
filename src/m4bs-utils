@@ -17,42 +17,51 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+function echo_red {
+	m4bs_echo "31m" "$1"
+}
+
+function echo_no_colour {
+	echo "$1"
+}
+
+function echo_yellow {
+	m4bs_echo "33m" "$1"
+}
+
+function echo_green {
+	m4bs_echo "32m" "$1"
+}
+
+function _echo_cyan {
+	m4bs_echo "36m" "$1"
+}
+
+function m4bs_echo {
+		echo -e "\033[1;$1$2\033[0m"
+}
+
 get_user() {
 	if [ "$EUID" == 0 ]; then
 		echo "Por favor no ejecute con usuario root"
 		exit 1
 	fi
-  echo "comprobamos usuario"
 }
-
-# Funciones del programa
 
 do_log() {
-  echo "antes de escribir log"
   logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
-# Comprobamos estado de MEGA
-echo "arranque programa"
-get_user
-echo "antes de chequear whoami"
-mega-whoami 2>&1
-echo "despues de chequear whoami"
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
-    #echo "$(tput setaf 2)ONLINE"
-    echo "antes de escribir en syslog"
-    do_log "[INFO ] Chequeo status: ONLINE."
-    echo "despues de escribir en syslog"
-    clear
-    echo "ONLINE"
-    exit 0
-else
-    #echo "$(tput setaf 1)OFFLINE"
-    echo "antes de escribir en syslog"
-    do_log "[INFO ] Chequeo status: OFFLINE."
-    echo "despues de escribir en syslog"
-    clear
-    echo "OFFLINE"
-    exit 1
-fi
 
+function get_valid_ip(){
+  # Set up local variables
+  local ip=$1
+  local IFS=.; local -a a=($ip)
+  # Start with a regex format test
+  [[ $ip =~ ^[0-9]+(\.[0-9]+){3}$ ]] || return 1
+  # Test values of quads
+  local quad
+  for quad in {0..3}; do
+    [[ "${a[$quad]}" -gt 255 ]] && return 1
+  done
+  return 0
+}

@@ -17,16 +17,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
-		exit 1
-	fi
-}
+source $HOME/.m4bs/src/m4bs-common
+source $HOME/.m4bs/src/m4bs-utils
+
+# Comprobamos estado de MEGA
 
 get_user
 
-# Programa
+mega-whoami 2>&1
 
-tail -n10000 /var/log/syslog | grep "m4bs"
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    #echo "$(tput setaf 2)ONLINE"
+    do_log "[INFO ] Chequeo status: ONLINE."
+    echo "ONLINE"
+    exit 0
+else
+    #echo "$(tput setaf 1)OFFLINE"
+    do_log "[INFO ] Chequeo status: OFFLINE."
+    echo "OFFLINE"
+    exit 1
+fi
 

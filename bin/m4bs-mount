@@ -17,18 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con usuario root"
-		exit 1
-	fi
-}
-
-# Funciones del programa
-
-do_log() {
-  logger -p local0.notice -t [${0##*/}]:[$$] $1
-}
+source $HOME/.m4bs/src/m4bs-common
+source $HOME/.m4bs/src/m4bs-utils
 
 get_user
 

@@ -17,17 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-clear
-source /usr/share/doc/m4bs/version
-echo ""
-echo ""
-echo " ███    ███ ██   ██ ██████  ███████ "
-echo " ████  ████ ██   ██ ██   ██ ██      "
-echo " ██ ████ ██ ███████ ██████  ███████ "
-echo " ██  ██  ██      ██ ██   ██      ██ "
-echo " ██      ██      ██ ██████  ███████ "
-echo "                  by dcf-maker 2021 "
-echo "                     Version $VERSION "
-echo ""
+source $HOME/.m4bs/src/m4bs-common
+source $HOME/.m4bs/src/m4bs-utils
 
-
+echo_green $VERSION_FILE
+exit
