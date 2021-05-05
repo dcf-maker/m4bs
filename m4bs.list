@@ -5,6 +5,7 @@
 %readme README.md
 %description Kung Foo firewall software for your firewall.
 %version 0.0.87
+%arch armv7l
 
 %requires git
 %requires telnet
