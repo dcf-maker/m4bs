@@ -17,14 +17,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-get_user() {
-	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
-		exit 1
-	fi
-}
-
-
 ## Variable globales
 
 STATUS=OFFLINE
@@ -36,6 +28,13 @@ WIDTH=80
 ####################
 # functions script #
 ####################
+
+get_user() {
+	if [ "$EUID" == 0 ]; then
+		echo "Por favor no ejecute con usuario root"
+		exit 1
+	fi
+}
 
 do_log() {
   logger -p local0.notice -t [${0##*/}]:[$$] $1

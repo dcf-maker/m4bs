@@ -19,7 +19,7 @@
 
 get_user() {
 	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
+		echo "Por favor no ejecute con usuario root"
 		exit 1
 	fi
 }
@@ -41,7 +41,6 @@ source $CONFIG_FILE
 CHECK=$(m4bs-status)
 
 if [ "$CHECK" = "OFFLINE" ]; then
-    ### Validacion de datos
 
     if [ -z "$USER" ] || [ -z "$PASSWORD" ] || [ -z "$LOCALPATH" ] || [ -z "$REMOTEPATH" ] !! [ -z "$IPM4" ]
     then

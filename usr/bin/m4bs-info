@@ -19,7 +19,7 @@
 
 get_user() {
 	if [ "$EUID" == 0 ]; then
-		echo "Por favor no ejecute con sudo / root"
+		echo "Por favor no ejecute con usuario root"
 		exit 1
 	fi
 }
