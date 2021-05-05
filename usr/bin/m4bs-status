@@ -22,27 +22,34 @@ get_user() {
 		echo "Por favor no ejecute con usuario root"
 		exit 1
 	fi
+  echo "comprobamos usuario"
 }
 
 # Funciones del programa
 
 do_log() {
+  echo "antes de escribir log"
   logger -p local0.notice -t [${0##*/}]:[$$] $1
 }
 # Comprobamos estado de MEGA
-
+echo "arranque programa"
 get_user
-
-SALIDA=$(mega-whoami 2>&1)
+echo "antes de chequear whoami"
+mega-whoami 2>&1
+echo "despues de chequear whoami"
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
     #echo "$(tput setaf 2)ONLINE"
+    echo "antes de escribir en syslog"
     do_log "[INFO ] Chequeo status: ONLINE."
+    echo "despues de escribir en syslog"
     echo "ONLINE"
     exit 0
 else
     #echo "$(tput setaf 1)OFFLINE"
+    echo "antes de escribir en syslog"
     do_log "[INFO ] Chequeo status: OFFLINE."
+    echo "despues de escribir en syslog"
     echo "OFFLINE"
     exit 1
 fi

@@ -200,7 +200,7 @@ do_info_online(){
       dialog --title " Backup Online " \
     --ok-label "Cerrar" \
     --no-collapse \
-    --msgbox "M4-BACKUP SYSTEM no esta arrancado. Por favor arranquelo" 15 60    
+    --msgbox "M4BS no esta arrancado. Por favor arranquelo" 15 60    
   fi
 }
 
@@ -220,10 +220,10 @@ do_start(){
     57)
       SALIDA="[Error: 57] Error al arrancar la sincronizacion";;
     *)
-      SALIDA="Error desconocio al arrancar M4-Backup System";;
+      SALIDA="Error desconocio al arrancar M4BS System";;
  esac
  STATUS=$(m4bs-status)
-  dialog --title " Arranque M4-Backup " \
+  dialog --title " Arranque M4BS " \
   --ok-label "Cerrar" \
   --no-collapse \
   --msgbox "$SALIDA" 10 60
@@ -239,18 +239,18 @@ do_info(){
       WIDTHM=80
       ;;
     57)
-      SALIDA="M4-BACKUP SYSTEM no esta arrancado. Por favor arranquelo"
+      SALIDA="M4BS no esta arrancado. Por favor arranquelo"
       HEIGHTM=10
       WIDTHM=60
       ;;
     *)
-      SALIDA="Error desconocio al arrancar M4-Backup System"
+      SALIDA="Error desconocio al arrancar M4BS"
       HEIGHTM=10
       WIDTHM=60
       ;;
  esac
  STATUS=$(m4bs-status)
-  dialog --title " Arranque M4-Backup " \
+  dialog --title " Arranque M4BS " \
   --ok-label "Cerrar" \
   --no-collapse \
   --msgbox "$SALIDA" $HEIGHTM $WIDTHM
@@ -271,7 +271,7 @@ do_menu_info(){
     --menu "Status: $STATUS"  $HEIGHT $WIDTH 9 \
     "1" "Cuenta MEGA" \
     "2" "Backup Online" \
-    "3" "Configuracion M4-BACKUP SYSTEM" 2>&1 1>&3)
+    "3" "Configuracion M4BS" 2>&1 1>&3)
     exit_status=$?
     exec 3>&-
     case $exit_status in
@@ -297,8 +297,8 @@ do_menu_principal(){
     STATUS=$(m4bs-status)
     exec 3>&1
     selection=$(dialog \
-    --backtitle "M4-Backup v$VERSION - Backup Online M4 Motherboard" \
-    --title "  M4-BACKUP SYSTEM  " \
+    --backtitle "M4 Backup System v$VERSION - Backup Online M4 Motherboard" \
+    --title "  M4BS  " \
     --clear \
     --ok-label "Seleccionar" \
     --cancel-label "Salir" \
@@ -339,7 +339,7 @@ do_menu_configurations(){
     STATUS=$(m4bs-status)
     exec 3>&1
     selection=$(dialog \
-    --backtitle "M4-Backup v$VERSION - Backup Online M4 Motherboard" \
+    --backtitle "M4 Backup System v$VERSION - Backup Online M4 Motherboard" \
     --title "  Modificar Configuraciones  " \
     --clear \
     --ok-label "Seleccionar" \
@@ -350,7 +350,7 @@ do_menu_configurations(){
     "3" "Ruta Origen" \
     "4" "Ruta Destino (MEGA)" \
     "5" "Direcion IP M4 Board" \
-    "6" "Arranque M4-Backup" 2>&1 1>&3)
+    "6" "Arranque M4BS" 2>&1 1>&3)
     exit_status=$?
     exec 3>&-
     case $exit_status in
